@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI; // 버튼 관련 using
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MainManager : MonoBehaviour
 {
+    public static MainManager Instance;
+    
     public MeshRenderer cubeMesh;
     public Button[] colorButtons; // 버튼 배열
 
@@ -12,6 +15,14 @@ public class MainManager : MonoBehaviour
     // 색상 이름 배열
     private string[] colorNames = new string[] { "Yellow", "Green", "Red" };
 
+
+    void Awake()
+    {
+        if (Instance != null) {
+            Destroy(gameObject); // 이미 인스턴스가 존재하면 현재 오브젝트는 삭제
+            DontDestroyOnLoad(gameObject); // 게임 오브젝트가 씬 변경 후에도 삭제되지 않게
+        }
+    }
     void Start()
     {
         // JSON 파일에서 색상 데이터 불러오기
@@ -83,6 +94,11 @@ public class MainManager : MonoBehaviour
                 cubeMesh.material.color = colorDictionary[savedColorName];
             }
         }
+    }
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex == 1 ? 0 : 1);
     }
 }
 

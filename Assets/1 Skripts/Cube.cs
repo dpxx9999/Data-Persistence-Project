@@ -7,6 +7,7 @@ public class Cube : MonoBehaviour
     public Vector3 rotateAxis;
 
     readonly float _limitScale = 10;
+    
     void Update()
     {
         transform.Rotate(rotateAxis, rotateSpeed * Time.deltaTime);
